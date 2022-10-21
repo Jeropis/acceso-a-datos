@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public abstract class AnimalDAO {
 
@@ -33,13 +34,43 @@ public abstract class AnimalDAO {
 
 	}
 
+	public static ArrayList<Animal> findAllAnimales() {
+
+		ArrayList<Animal> r = new ArrayList<Animal>();
+		connection = openConnection();
+		Animal a = null;
+		String query = "select * from animales";
+
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+
+			ResultSet rs = statement.executeQuery(query);
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String nombre = rs.getString("nombre");
+				String habitat = rs.getString("habitat");
+				double peso = rs.getDouble("peso_aproximado");
+
+				a = new Animal(id, nombre, habitat, peso);
+
+				r.add(a);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return r;
+	}
+
 	public static Animal findById(int id) {
 
 		connection = openConnection();
 		Animal a = null;
 		String query = "select * from animales where id = ?";
 
-		Statement statement;
 		try {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, id);
