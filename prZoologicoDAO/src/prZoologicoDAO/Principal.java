@@ -13,11 +13,21 @@ public class Principal {
 
 //		AnimalDAO.deleteAllAnimal();
 
-		ArrayList<Animal> listaAnimales = AnimalDAO.findAllAnimales();
-
-		for (int i = 0; i < listaAnimales.size(); i++) {
-			System.out.println(listaAnimales.get(i));
-		}
+//		ArrayList<Animal> listaAnimales = AnimalDAO.findAllAnimales();
+//
+//		for (int i = 0; i < listaAnimales.size(); i++) {
+//			System.out.println(listaAnimales.get(i));
+//		}
+		
+		Animal res = AnimalDAO.findById(1);
+		
+		res.setHabitat("colinas");
+		
+		AnimalDAO.updateAnimal(res);
+		
+		res = AnimalDAO.findById(1);
+		
+		System.out.println(res);
 
 	}
 
