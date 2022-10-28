@@ -7,6 +7,10 @@ public class Temporada {
 	private String titulo;
 	private Serie serie;
 
+	public Temporada() {
+		
+	}
+	
 	public Temporada(int id, int num_temporada, String titulo, Serie serie) {
 		super();
 		this.id = id;

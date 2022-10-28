@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,7 +26,29 @@ public class SerieDao implements Dao<Serie> {
 	@Override
 	public Serie buscarPorId(int i) {
 
-		return null;
+		connection = openConnection();
+		Serie a = null;
+		String query = "select * from series where id = ?";
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, i);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				
+				String titulo = rs.getString("titulo");
+				int edad = rs.getInt("edad");
+				String plataforma = rs.getString("plataforma");
+
+				a = new Serie(i,titulo, edad, plataforma,null);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return a;
 	}
 
 	@Override
