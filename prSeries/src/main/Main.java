@@ -26,15 +26,25 @@ public class Main {
 //		temporadaDao.insertar(t1);
 //		temporadaDao.insertar(t2);
 		
-		Serie los_simpsons = serieDao.buscarPorId(1);
+//		Serie los_simpsons = serieDao.buscarPorId(1);
+//		
+//		serieDao.borrar(los_simpsons);
 		
-		serieDao.borrar(los_simpsons);
 		
 //		los_simpsons.setPlataforma("Netflix");
 //		serieDao.modificar(los_simpsons);
 //		
 //		
-//		ArrayList<Serie> series = serieDao.buscarTodos();
+		ArrayList<Serie> series = serieDao.buscarTodos();
+		
+		for (Serie serie : series) {
+			System.out.println("SERIE: " + serie.getTitulo());
+		
+			for (Temporada temporada : serie.getTemporada()) {
+				System.out.println("TEMPORADA: " + temporada.getTitulo());
+			}
+			
+		}
 //		
 //		for (Serie serie : series) {
 //			System.out.println(serie.getTitulo());
