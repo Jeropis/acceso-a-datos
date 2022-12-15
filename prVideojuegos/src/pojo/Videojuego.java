@@ -70,7 +70,7 @@ public class Videojuego {
 	@Override
 	public String toString() {
 		return "Videojuego:\n\tID: " + id + "\n\tNOMBRE: " + nombre + "\n\tDESARROLLADORA: " + desarrolladora
-				+ "\n\tPEGI: " + pegi + "\n\tPLATAFORMA: " + plataforma;
+				+ "\n\tPEGI: " + pegi + "\nPLATAFORMA: " + plataforma;
 	}
 
 }

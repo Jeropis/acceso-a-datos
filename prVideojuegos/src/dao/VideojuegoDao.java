@@ -37,9 +37,9 @@ public class VideojuegoDao extends ObjetoDao implements InterfazDao<Videojuego> 
 				String desarrolladora = rs.getString("desarrolladora");
 				int pegi = rs.getInt("pegi");
 				int plataforma = rs.getInt("plataforma_id");
-				
+
 				PlataformaDao pd = new PlataformaDao();
-				
+
 				Plataforma p = pd.buscarPorIdP(plataforma);
 
 				a = new Videojuego(id, nombre, desarrolladora, pegi, p);
@@ -51,11 +51,8 @@ public class VideojuegoDao extends ObjetoDao implements InterfazDao<Videojuego> 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		closeConnection();
 		return r;
 	}
-	
-
 
 	@Override
 	public Videojuego buscarPorId(int i) {
@@ -74,9 +71,9 @@ public class VideojuegoDao extends ObjetoDao implements InterfazDao<Videojuego> 
 				String desarrolladora = rs.getString("desarrolladora");
 				int pegi = rs.getInt("pegi");
 				int plataforma = rs.getInt("plataforma_id");
-				
+
 				PlataformaDao pd = new PlataformaDao();
-				
+
 				Plataforma p = pd.buscarPorId(plataforma);
 
 				a = new Videojuego(id, nombre, desarrolladora, pegi, p);
@@ -107,13 +104,14 @@ public class VideojuegoDao extends ObjetoDao implements InterfazDao<Videojuego> 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		closeConnection();
 
 	}
 
 	@Override
 	public void modificar(Videojuego t) {
-		String query = "update videojuegos set nombre = ?, desarrolladora = ?,pegi = ?, plataforma_id = ? where id = " + t.getId();
+		connection = openConnection();
+		String query = "update videojuegos set nombre = ?, desarrolladora = ?,pegi = ?, plataforma_id = ? where id = "
+				+ t.getId();
 		try {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, t.getNombre());
@@ -121,12 +119,11 @@ public class VideojuegoDao extends ObjetoDao implements InterfazDao<Videojuego> 
 			ps.setInt(3, t.getPegi());
 			ps.setInt(4, t.getPlataforma().getId());
 			ps.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 
 	}
 
@@ -146,8 +143,87 @@ public class VideojuegoDao extends ObjetoDao implements InterfazDao<Videojuego> 
 			e.printStackTrace();
 		}
 
+	}
+	
+	public ArrayList<Videojuego> buscarPorPlataformaId(int idPlataforma){
+		
+		ArrayList<Videojuego> lista = new ArrayList<Videojuego>();
+		connection = openConnection();
+		Videojuego a = null;
+		String query = "select * from videojuegos where plataforma_id = " + idPlataforma;
 
+		Statement statement;
+		try {
+			statement = connection.createStatement();
 
+			ResultSet rs = statement.executeQuery(query);
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String nombre = rs.getString("nombre");
+				String desarrolladora = rs.getString("desarrolladora");
+				int pegi = rs.getInt("pegi");
+				
+				PlataformaDao pd = new PlataformaDao();
+
+				Plataforma p = pd.buscarPorIdP(idPlataforma);
+
+				a = new Videojuego(id, nombre, desarrolladora, pegi, p);
+
+				lista.add(a);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		
+		
+		return lista;
+		
+	}
+	
+	public void deleteAllTables() {
+		
+		connection = openConnection();
+
+		String query = "delete from videojuegos";
+
+		try {
+
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(query);
+			
+			String query1 = "delete from plataformas";
+
+			Statement statement1 = connection.createStatement();
+			statement1.executeUpdate(query1);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+	
+
+	public void resetAutoIncrement() {
+		try {
+			connection = openConnection();
+			String query = "alter table videojuegos AUTO_INCREMENT=1;";
+			PreparedStatement ps = connection.prepareStatement(query);
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		closeConnection();
 	}
 
 }

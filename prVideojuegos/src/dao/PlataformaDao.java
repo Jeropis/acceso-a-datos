@@ -45,7 +45,7 @@ public class PlataformaDao extends ObjetoDao implements InterfazDao<Plataforma> 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		closeConnection();
+
 		return r;
 	}
 
@@ -72,11 +72,10 @@ public class PlataformaDao extends ObjetoDao implements InterfazDao<Plataforma> 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		closeConnection();
 		return a;
 	}
 
-	public static Plataforma buscarPorIdP(int i) {
+	public Plataforma buscarPorIdP(int i) {
 		connection = openConnection();
 		Plataforma a = null;
 		String query = "select * from plataformas where id = ?";
@@ -116,7 +115,6 @@ public class PlataformaDao extends ObjetoDao implements InterfazDao<Plataforma> 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		closeConnection();
 
 	}
 
@@ -134,7 +132,6 @@ public class PlataformaDao extends ObjetoDao implements InterfazDao<Plataforma> 
 			e.printStackTrace();
 		}
 
-		closeConnection();
 
 	}
 
@@ -193,5 +190,20 @@ public class PlataformaDao extends ObjetoDao implements InterfazDao<Plataforma> 
 		// closeConnection();
 		return videojuegos;
 	}
+	
+	public void resetAutoIncrement() {
+        try {
+            connection = openConnection();
+            String query = "alter table plataformas AUTO_INCREMENT=1;";
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
 }
